@@ -18,15 +18,15 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/")
-def root() -> str:
-    return "hello app"
+def root() -> dict[str, str]:
+    return {"msg": "hello app"}
 
 
 @app.post("/cat", response_model=CatPublic)
 def create_cat(
     cat_data: CatCreate, session: Session = Depends(get_session)
 ) -> CatPublic:
-    cat = Cat.model_validate(cat_data)
+    cat: Cat = Cat.model_validate(cat_data)
     session.add(cat)
     session.commit()
     session.refresh(cat)
