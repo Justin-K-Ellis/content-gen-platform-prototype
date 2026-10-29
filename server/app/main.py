@@ -6,6 +6,7 @@ from sqlmodel import Session, select
 
 from db.engine import init_db, get_session
 from db.models.cat import Cat, CatCreate, CatPublic
+from app.router import router
 
 
 @asynccontextmanager
@@ -15,6 +16,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(router)
 
 
 @app.get("/")
