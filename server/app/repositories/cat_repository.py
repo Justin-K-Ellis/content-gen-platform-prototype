@@ -6,17 +6,13 @@ class CatRepository:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def get_cats(self) -> list[CatPublic]:
+    def get_cats(self) -> list[Cat]:
         cat_sequence = self.session.exec(select(Cat)).all()
-        cats: list[CatPublic] = [
-            CatPublic(name=cat.name, color=cat.color, public_id=cat.public_id)
-            for cat in cat_sequence
-        ]
-        return cats
+        return list(cat_sequence)
 
-    def create_cat(self, cat_data: CatCreate) -> CatPublic:
+    def create_cat(self, cat_data: CatCreate) -> Cat:
         cat: Cat = Cat.model_validate(cat_data)
         self.session.add(cat)
         self.session.commit()
         self.session.refresh(cat)
-        return CatPublic(name=cat.name, color=cat.color, public_id=cat.public_id)
+        return cat
