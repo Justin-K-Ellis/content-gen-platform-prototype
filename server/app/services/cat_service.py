@@ -17,11 +17,15 @@ class CatService:
         cats: list[Cat] = self.repo.get_cats()
         cats_public: list[CatPublic] = []
         for cat in cats:
-            public_cat = CatPublic(
-                name=cat.name, color=cat.color, public_id=cat.public_id
-            )
+            public_cat = self._to_public(cat)
             cats_public.append(public_cat)
         return cats_public
 
-    def get_by_name(self, name: str) -> Cat | None:
-        return self.repo.get_by_name(name)
+    def get_by_name(self, name: str) -> CatPublic | None:
+        cat = self.repo.get_by_name(name)
+        if cat is None:
+            return None
+        return self._to_public(cat)
+
+    def _to_public(self, cat: Cat) -> CatPublic:
+        return CatPublic(name=cat.name, color=cat.color, public_id=cat.public_id)
