@@ -32,3 +32,9 @@ class TestCreateCat:
     def test_rejects_missing_fields(self, client: TestClient):
         res = client.post("/cats/", json={"name": "Mouchan"})
         assert res.status_code == 422
+
+    def test_rejects_duplicates(self, client: TestClient):
+        url = "/cats/"
+        client.post(url, json={"name": "Stella", "color": "gray"})
+        res = client.post(url, json={"name": "Stella", "color": "gray"})
+        assert res.status_code == 422

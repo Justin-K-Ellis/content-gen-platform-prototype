@@ -15,6 +15,12 @@ class FakeCatRepository:
         self._cats.append(cat)
         return cat
 
+    def get_by_name(self, name: str) -> Cat | None:
+        for cat in self._cats:
+            if cat.name == name:
+                return cat
+        return None
+
 
 class TestGetCats:
     def test_returns_empty_list(self):
