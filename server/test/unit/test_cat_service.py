@@ -36,3 +36,12 @@ class TestGetCats:
         assert result[0].name == "Mouchan"
         assert result[0].color == "black"
         assert result[0].public_id == cat.public_id
+
+
+class TestGetByName:
+    def test_get_by_name(self):
+        cat = Cat(name="Stella", color="gray", public_id=uuid.uuid4())
+        service = CatService(repo=FakeCatRepository([cat]))
+        stella = service.get_by_name("Stella")
+        assert stella is not None
+        assert stella.public_id == cat.public_id
