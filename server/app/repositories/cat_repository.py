@@ -1,4 +1,3 @@
-from fastapi import Depends
 from sqlmodel import Session, select
 from db.models.cat import Cat, CatPublic, CatCreate
 
