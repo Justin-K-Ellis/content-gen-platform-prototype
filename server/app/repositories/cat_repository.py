@@ -1,5 +1,13 @@
+from typing import Protocol
+
 from sqlmodel import Session, select
-from db.models.cat import Cat, CatPublic, CatCreate
+
+from db.models.cat import Cat, CatCreate
+
+
+class CatRepositoryProtocol(Protocol):
+    def get_cats(self) -> list[Cat]: ...
+    def create_cat(self, cat_data: CatCreate) -> Cat: ...
 
 
 class CatRepository:
