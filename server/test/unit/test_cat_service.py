@@ -45,3 +45,8 @@ class TestGetByName:
         stella = service.get_by_name("Stella")
         assert stella is not None
         assert stella.public_id == cat.public_id
+
+    def test_no_name_is_none(self):
+        service = CatService(repo=FakeCatRepository())
+        mou = service.get_by_name("Mouchan")
+        assert mou is None
