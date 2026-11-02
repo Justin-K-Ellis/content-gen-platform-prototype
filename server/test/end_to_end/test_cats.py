@@ -2,6 +2,9 @@ from fastapi.testclient import TestClient
 
 
 class TestGetCats:
+    basic_cat = {"name": "Mouchan", "color": "black and white"}
+    base_url = "/cats/"
+
     def test_returns_200(self, client: TestClient):
         res = client.get("/cats/")
         assert res.status_code == 200
@@ -15,6 +18,18 @@ class TestGetCats:
         res = client.get("/cats/")
         assert len(res.json()) == 1
         assert res.json()[0]["name"] == "Mouchan"
+
+    def test_non_existent_cat_returns_404(self, client: TestClient):
+        res = client.get("/cats/Leland")
+        assert res.status_code == 404
+
+    def test_gets_by_name(self, client: TestClient):
+        res1 = client.post(self.base_url, json=self.basic_cat)
+        res2 = client.get(f"{self.base_url}Mouchan")
+        body = res2.json()
+        assert res1.status_code == 201
+        assert res2.status_code == 200
+        assert body["name"] == "Mouchan"
 
 
 class TestCreateCat:
@@ -40,11 +55,3 @@ class TestCreateCat:
         client.post(self.base_url, json=self.basic_cat)
         res = client.post(self.base_url, json=self.basic_cat)
         assert res.status_code == 422
-
-    def test_gets_by_name(self, client: TestClient):
-        res1 = client.post(self.base_url, json=self.basic_cat)
-        res2 = client.get(f"{self.base_url}Mouchan")
-        body = res2.json()
-        assert res1.status_code == 201
-        assert res2.status_code == 200
-        assert body["name"] == "Mouchan"
