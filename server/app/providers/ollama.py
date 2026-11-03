@@ -1,6 +1,5 @@
 from ollama import chat
 from ollama import ChatResponse
-from pydantic import BaseModel
 from db.models.ra import RA
 
 

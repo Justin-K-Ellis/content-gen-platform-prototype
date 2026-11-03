@@ -1,13 +1,12 @@
 from app.main import app
-from app.controllers.ollama_controller import BasicQuery, BasicAnswer
 from fastapi.testclient import TestClient
-from pydantic import BaseModel
+from db.models.queries import BasicQuery, BasicAnswer
 
 client = TestClient(app)
 
 
 class TestOllama:
-    query_content = BasicQuery(question="Which is bigger, Jupiter or Saturn?")
+    query_content = BasicQuery(query="Which is bigger, Jupiter or Saturn?")
     base_url = "/ollama/"
 
     def test_resp_status(self):
