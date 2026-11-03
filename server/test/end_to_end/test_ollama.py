@@ -1,6 +1,7 @@
 from app.main import app
 from app.controllers.ollama_controller import BasicQuery, BasicAnswer
 from fastapi.testclient import TestClient
+from pydantic import BaseModel
 
 client = TestClient(app)
 

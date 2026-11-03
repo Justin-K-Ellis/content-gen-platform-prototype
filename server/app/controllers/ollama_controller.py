@@ -18,7 +18,7 @@ controller = APIRouter(prefix="/ollama")
 def query_model(query: BasicQuery) -> BasicAnswer:
     llm = OllamaProvider()
     try:
-        res = llm.query(query.question)
+        res = llm.query(response_model=BasicAnswer, user_prompt=query.question)
         if res is None:
             raise HTTPException(
                 detail="LLM could not complete the answer.",
