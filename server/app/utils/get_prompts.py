@@ -9,7 +9,10 @@ class Prompts(BaseModel):
 
 def get_prompts() -> Prompts:
     try:
-        data = yaml.safe_load(config.raw_prompts)
+        with open(config.raw_prompts) as f:
+            data = yaml.safe_load(f)
+            print("=== yaml data ===")
+            print(data)
         prompts = Prompts(RA=data["RA"])
         return prompts
     except FileNotFoundError as e:
