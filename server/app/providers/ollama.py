@@ -19,7 +19,7 @@ class OllamaProvider:
 
     def query(self, response_model, user_prompt: str, temp: float = 0.5):
         response: ChatResponse = chat(
-            model=config.qwen,
+            model=config.llama,
             messages=[
                 {"role": "system", "content": self.sys_prompt},
                 {"role": "user", "content": user_prompt},
