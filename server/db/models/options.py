@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
+from sqlmodel import SQLModel
 
 
-class ThreeOptions(BaseModel):
+class ThreeOptions(SQLModel):
     A: str
     B: str
     C: str

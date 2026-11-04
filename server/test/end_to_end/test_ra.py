@@ -1,7 +1,7 @@
 from app.main import app
 from fastapi.testclient import TestClient
 from db.models.queries import BasicQuery
-from db.models.ra import RA
+from db.models.ra import RACreate
 
 client = TestClient(app)
 
@@ -12,4 +12,4 @@ class TestRA:
         res = client.post("/ra/", json=query.model_dump())
         data = res.json()
         assert res.status_code == 201
-        assert isinstance(RA.model_validate(data), RA)
+        assert isinstance(RACreate.model_validate(data), RACreate)

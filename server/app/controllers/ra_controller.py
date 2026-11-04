@@ -2,16 +2,23 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.providers.ollama import OllamaProvider
 from app.utils.dependencies import PromptsDep
-from db.models.ra import RA
+from db.models.ra import RA, RACreate
 from db.models.queries import BasicQuery
 
 controller = APIRouter(prefix="/ra")
 
 
+# TODO: Enable this endpoint after the RA repository/service dependency exists.
+# @controller.get("/", response_model=list[RA])
+# def get_ra_items(service: RAServiceDep) -> list[RA]:
+#     """Return every persisted RA item."""
+#     return service.get_ra_items()
+
+
 @controller.post("/", response_model=RA, status_code=201)
-def get_ra(query: BasicQuery, prompts: PromptsDep) -> RA:
+def generate_ra(query: BasicQuery, prompts: PromptsDep) -> RACreate:
     llm = OllamaProvider(sys_prompt=prompts.RA)
-    res = llm.get_ra(prompt=query.query)
+    res = llm.gen_ra(prompt=query.query)
     if res is None:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return res

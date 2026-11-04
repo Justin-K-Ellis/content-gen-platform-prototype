@@ -1,6 +1,6 @@
 from ollama import chat
 from ollama import ChatResponse
-from db.models.ra import RA
+from db.models.ra import RA, RACreate
 from app.utils.config import config
 
 
@@ -11,11 +11,11 @@ class OllamaProvider:
     ):
         self.sys_prompt = sys_prompt
 
-    def get_ra(self, prompt: str) -> RA:
+    def gen_ra(self, prompt: str) -> RACreate:
         result = self.query(response_model=RA, user_prompt=prompt)
         if result is None:
             raise Exception("RA response was None.")
-        return RA.model_validate_json(result)
+        return RACreate.model_validate_json(result)
 
     def query(self, response_model, user_prompt: str, temp: float = 0.5):
         response: ChatResponse = chat(
