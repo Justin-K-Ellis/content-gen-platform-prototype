@@ -8,4 +8,4 @@ class ThreeOptions(BaseModel):
 
 
 class FourOptions(ThreeOptions):
-    C: str
+    D: str
