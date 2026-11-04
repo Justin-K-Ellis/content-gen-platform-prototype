@@ -1,6 +1,7 @@
 from ollama import chat
 from ollama import ChatResponse
 from db.models.ra import RA
+from app.utils.config import config
 
 
 class OllamaProvider:
@@ -18,7 +19,7 @@ class OllamaProvider:
 
     def query(self, response_model, user_prompt: str, temp: float = 0.5):
         response: ChatResponse = chat(
-            model="gemma4:e2b-mlx",
+            model=config.qwen,
             messages=[
                 {"role": "system", "content": self.sys_prompt},
                 {"role": "user", "content": user_prompt},
