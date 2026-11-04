@@ -16,13 +16,14 @@ class OllamaProvider:
             raise Exception("RA response was None.")
         return RA.model_validate_json(result)
 
-    def query(self, response_model, user_prompt: str):
+    def query(self, response_model, user_prompt: str, temp: float = 0.5):
         response: ChatResponse = chat(
             model="gemma4:e2b-mlx",
             messages=[
                 {"role": "system", "content": self.sys_prompt},
                 {"role": "user", "content": user_prompt},
             ],
+            options={"temperature": temp},
             format=response_model.model_json_schema(),
         )
         return response.message.content
