@@ -1,11 +1,11 @@
-from db.models.options import FourOptions
 import uuid
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Column
+from sqlalchemy import JSON
 
 
 class RABase(SQLModel):
     stem: str
-    options: FourOptions
+    options: list[str] = Field(sa_column=Column(JSON))
     key: str
 
 
