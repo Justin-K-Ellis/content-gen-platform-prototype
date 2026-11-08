@@ -1,18 +1,18 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.providers.ollama import OllamaProvider
-from app.utils.dependencies import PromptsDep
-from db.models.ra import RA, RACreate
+from app.utils.dependencies import PromptsDep, RAServiceDep
+from db.models.ra import RA, RACreate, RAPublic
 from db.models.queries import BasicQuery
 
 controller = APIRouter(prefix="/ra")
 
 
 # TODO: Enable this endpoint after the RA repository/service dependency exists.
-# @controller.get("/", response_model=list[RA])
-# def get_ra_items(service: RAServiceDep) -> list[RA]:
-#     """Return every persisted RA item."""
-#     return service.get_ra_items()
+@controller.get("/", response_model=list[RA])
+def get_ra_items(service: RAServiceDep) -> list[RAPublic]:
+    """Return every persisted RA item."""
+    return service.index()
 
 
 @controller.post("/", response_model=RA, status_code=201)
