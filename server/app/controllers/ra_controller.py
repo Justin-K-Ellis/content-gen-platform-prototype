@@ -25,17 +25,17 @@ def generate_ra(query: BasicQuery, prompts: PromptsDep) -> RACreate:
 
 
 @controller.post("/batch", response_model=list[RA], status_code=201)
-def ra_batch(count: int, prompts: PromptsDep) -> list[RA]:
+def ra_batch(count: int, prompts: PromptsDep) -> list[RACreate]:
     if count > 10:
         count = 10
         print("Warning: max count is 10.")
     try:
         llm = OllamaProvider(sys_prompt=prompts.RA)
         user_prompt = "Create an RA item."
-        results: list[RA] = []
+        results: list[RACreate] = []
         while len(results) < count:
             print(f"Creating item {len(results) + 1} of {count}.")
-            ra_item: RA = llm.get_ra(prompt=user_prompt)
+            ra_item: RACreate = llm.gen_ra(prompt=user_prompt)
             results.append(ra_item)
         return results
     except Exception as e:
