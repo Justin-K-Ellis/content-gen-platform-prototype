@@ -27,3 +27,15 @@ class RAService:
         if ra is None:
             raise ValueError("RA is None")
         return ra
+
+    def gen_batch(self, count: int, sys_prompt: str) -> list[RACreate]:
+        if count > 10:
+            count = 10
+            print("Warning: batch count cannot exceed 10. Batch set to 10.")
+        llm = OllamaProvider(sys_prompt=sys_prompt)
+        results: list[RACreate] = []
+        while len(results) < count:
+            print(f"Creating item {len(results) + 1} of {count}.")
+            ra_item: RACreate = llm.gen_ra(prompt="Create an RA item.")
+            results.append(ra_item)
+        return results

@@ -8,7 +8,6 @@ from db.models.queries import BasicQuery
 controller = APIRouter(prefix="/ra")
 
 
-# TODO: Enable this endpoint after the RA repository/service dependency exists.
 @controller.get("/", response_model=list[RA])
 def get_ra_items(service: RAServiceDep) -> list[RAPublic]:
     """Return every persisted RA item."""
@@ -28,19 +27,9 @@ def generate_ra(
 
 
 @controller.post("/batch", response_model=list[RA], status_code=201)
-def ra_batch(count: int, prompts: PromptsDep) -> list[RACreate]:
-    if count > 10:
-        count = 10
-        print("Warning: max count is 10.")
+def ra_batch(count: int, prompts: PromptsDep, service: RAServiceDep) -> list[RACreate]:
     try:
-        llm = OllamaProvider(sys_prompt=prompts.RA)
-        user_prompt = "Create an RA item."
-        results: list[RACreate] = []
-        while len(results) < count:
-            print(f"Creating item {len(results) + 1} of {count}.")
-            ra_item: RACreate = llm.gen_ra(prompt=user_prompt)
-            results.append(ra_item)
-        return results
+        return service.gen_batch(count=count, sys_prompt=prompts.RA)
     except Exception as e:
         print(e)
         raise HTTPException(
