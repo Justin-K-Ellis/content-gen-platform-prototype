@@ -16,12 +16,15 @@ def get_ra_items(service: RAServiceDep) -> list[RAPublic]:
 
 
 @controller.post("/", response_model=RA, status_code=201)
-def generate_ra(query: BasicQuery, prompts: PromptsDep) -> RACreate:
-    llm = OllamaProvider(sys_prompt=prompts.RA)
-    res = llm.gen_ra(prompt=query.query)
-    if res is None:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    return res
+def generate_ra(
+    service: RAServiceDep, query: BasicQuery, prompts: PromptsDep
+) -> RACreate:
+    try:
+        return service.gen_ra(sys_prompt=prompts.RA, user_prompt=query.query)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+        )
 
 
 @controller.post("/batch", response_model=list[RA], status_code=201)
