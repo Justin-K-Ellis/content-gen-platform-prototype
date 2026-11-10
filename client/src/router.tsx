@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router"
 import Demo from "./pages/Demo"
+import About from "./pages/About"
 import RootLayout from "./layouts/RootLayout"
 
 const router = createBrowserRouter([
@@ -15,8 +16,8 @@ const router = createBrowserRouter([
         element: <p>Hello</p>,
       },
       {
-        path: "bye",
-        element: <p>Bye</p>,
+        path: "about",
+        Component: About,
       },
     ],
   },
