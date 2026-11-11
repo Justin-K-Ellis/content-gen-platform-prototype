@@ -37,6 +37,23 @@ def generate_ra(
         )
 
 
+# == Save a generated item
+@controller.post("/save", status_code=201)
+def save_item(service: RAServiceDep, ra_items: list[RACreate]) -> list[RAPublic]:
+    results: list[RAPublic] = []
+    try:
+        for item in ra_items:
+            saved_ra: RA = service.save(ra=item)
+            results.append(service.ra_to_public(saved_ra))
+        return results
+    except Exception as e:
+        print(str(e))
+        raise HTTPException(
+            detail="Something went wrong when saving the item.",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+
 # == Batch of items ==
 @controller.post("/batch", response_model=list[RA], status_code=201)
 def ra_batch(count: int, prompts: PromptsDep, service: RAServiceDep) -> list[RACreate]:

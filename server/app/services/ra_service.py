@@ -39,3 +39,8 @@ class RAService:
             ra_item: RACreate = llm.gen_ra(prompt="Create an RA item.")
             results.append(ra_item)
         return results
+
+    def ra_to_public(self, ra: RA) -> RAPublic:
+        return RAPublic(
+            stem=ra.stem, options=ra.options, key=ra.key, public_id=ra.public_id
+        )
