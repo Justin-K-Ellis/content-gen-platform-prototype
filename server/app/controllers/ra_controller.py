@@ -1,3 +1,4 @@
+import uuid
 from fastapi import APIRouter, HTTPException, status
 
 from app.providers.ollama import OllamaProvider
@@ -8,12 +9,22 @@ from db.models.queries import BasicQuery
 controller = APIRouter(prefix="/ra")
 
 
+# == Read ==
+# == Read all ==
 @controller.get("/", response_model=list[RA])
 def get_ra_items(service: RAServiceDep) -> list[RAPublic]:
     """Return every persisted RA item."""
     return service.index()
 
 
+# == Read by id ==
+@controller.get("/{id}", response_model=RAPublic)
+def get_by_id(service: RAServiceDep, id: uuid.UUID) -> RAPublic:
+    return service.get_by_id(public_id=id)
+
+
+# == Create ==
+# == One item ==
 @controller.post("/", response_model=RA, status_code=201)
 def generate_ra(
     service: RAServiceDep, query: BasicQuery, prompts: PromptsDep
@@ -26,6 +37,7 @@ def generate_ra(
         )
 
 
+# == Batch of items ==
 @controller.post("/batch", response_model=list[RA], status_code=201)
 def ra_batch(count: int, prompts: PromptsDep, service: RAServiceDep) -> list[RACreate]:
     try:
