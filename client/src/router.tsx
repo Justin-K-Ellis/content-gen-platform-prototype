@@ -20,6 +20,43 @@ const router = createBrowserRouter([
         path: "about",
         Component: About,
       },
+      {
+        path: "create",
+        children: [
+          {
+            path: "ra",
+            element: <div>RA</div>,
+          },
+          {
+            path: "rbsk",
+            element: <div>RBSK</div>,
+          },
+          {
+            path: "rbsc",
+            element: <div>RBSC</div>,
+          },
+          {
+            path: "rc",
+            element: <div>RC</div>,
+          },
+          {
+            path: "la",
+            element: <div>LA</div>,
+          },
+          {
+            path: "lb",
+            element: <div>LB</div>,
+          },
+          {
+            path: "lc",
+            element: <div>LC</div>,
+          },
+          {
+            path: "ld",
+            element: <div>LD</div>,
+          },
+        ],
+      },
     ],
   },
 ])
