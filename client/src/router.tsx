@@ -3,6 +3,7 @@ import Demo from "./pages/Demo"
 import About from "./pages/About"
 import RootLayout from "./layouts/RootLayout"
 import Home from "./pages/Home"
+import CreateItem from "./pages/CreateItem"
 
 const router = createBrowserRouter([
   {
@@ -21,41 +22,8 @@ const router = createBrowserRouter([
         Component: About,
       },
       {
-        path: "create",
-        children: [
-          {
-            path: "ra",
-            element: <div>RA</div>,
-          },
-          {
-            path: "rbsk",
-            element: <div>RBSK</div>,
-          },
-          {
-            path: "rbsc",
-            element: <div>RBSC</div>,
-          },
-          {
-            path: "rc",
-            element: <div>RC</div>,
-          },
-          {
-            path: "la",
-            element: <div>LA</div>,
-          },
-          {
-            path: "lb",
-            element: <div>LB</div>,
-          },
-          {
-            path: "lc",
-            element: <div>LC</div>,
-          },
-          {
-            path: "ld",
-            element: <div>LD</div>,
-          },
-        ],
+        path: "create/:itemType",
+        Component: CreateItem,
       },
     ],
   },
