@@ -3,6 +3,7 @@ import Demo from "./pages/Demo"
 import About from "./pages/About"
 import RootLayout from "./layouts/RootLayout"
 import Home from "./pages/Home"
+import CreateItem from "./pages/CreateItem"
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         Component: About,
+      },
+      {
+        path: "create/:itemType",
+        Component: CreateItem,
       },
     ],
   },
