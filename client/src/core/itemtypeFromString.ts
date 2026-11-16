@@ -15,7 +15,7 @@ export default function itemtypeFromString(text: string): ItemType {
 
     const result = itemTypeMap[text]
     if (result == undefined) {
-        throw new Error("Unknown item type.")
+        throw new Error(`${text} is not a valid item type.`)
     }
     return result
 }
