@@ -5,12 +5,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { useQuery } from "@tanstack/react-query"
+import HttpClient from "@/core/httpClient"
+import { baseURL } from "@/core/config"
 
 type Mode = "batch" | "single"
 
 export default function CreateItem() {
   const params = useParams()
   const itemType = params.itemType?.toUpperCase() ?? ""
+  const httpClient = new HttpClient(baseURL)
+
   const titleText = `Create ${itemType} Items`
 
   const [mode, setMode] = useState<Mode>("batch")
@@ -24,10 +29,17 @@ export default function CreateItem() {
     setTimeout(() => {
       if (mode === "batch") {
         setResults(
-          Array.from({ length: batchCount }, (_, i) => `Placeholder ${itemType} item ${i + 1}`)
+          Array.from(
+            { length: batchCount },
+            (_, i) => `Placeholder ${itemType} item ${i + 1}`
+          )
         )
       } else {
-        setResults([`Generated ${itemType} item from prompt: "${prompt}"`])
+        // setResults([`Generated ${itemType} item from prompt: "${prompt}"`])
+        const result = useQuery({
+          queryKey: ["singleItem"],
+          queryFn: httpClient.createOne(itemType, prompt),
+        })
       }
       setIsLoading(false)
     }, 800)
@@ -69,7 +81,11 @@ export default function CreateItem() {
                 min={1}
                 max={10}
                 value={batchCount}
-                onChange={(e) => setBatchCount(Math.min(10, Math.max(1, Number(e.target.value))))}
+                onChange={(e) =>
+                  setBatchCount(
+                    Math.min(10, Math.max(1, Number(e.target.value)))
+                  )
+                }
                 className="w-24"
               />
             </div>
