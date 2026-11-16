@@ -29,7 +29,7 @@ class HttpClient implements IHttpClient {
         const response = await fetch(url.href, {
             method: "POST",
             headers: {
-                "Content-type": "application/jsno"
+                "Content-type": "application/json"
             },
             body: JSON.stringify({
                 query: prompt
