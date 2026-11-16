@@ -1,11 +1,9 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 import uvicorn
-from sqlmodel import Session, select
 
-from db.engine import init_db, get_session
-from db.models.cat import Cat, CatCreate, CatPublic
+from db.engine import init_db
 from app.router import router
 
 
